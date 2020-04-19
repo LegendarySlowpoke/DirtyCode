@@ -1,0 +1,96 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scner = new Scanner(System.in);
+        int inpVal = scner.nextInt();
+        int sqr = inpVal * inpVal;
+        boolean ansFINAL = true;
+
+        int[][] sudokuMatrx = new int[sqr][sqr]; // Matrix for sudoku values
+        int[] summH = new int[sqr]; // Array for sums of numbers on each row of values
+        int[] summV = new int[sqr];
+        int[] summF = new int[sqr];
+        int summFcounter = 0;
+        for (int i = 0; i < sqr; i++){
+            for (int i1 = 0; i1< sqr; i1++){
+                sudokuMatrx[i][i1] = scner.nextInt();
+            }
+        }
+
+/*      //Checking matrix input;
+        System.out.println();
+        for (int i = 0; i < sqr; i++) {
+            for (int i1 = 0; i1 < sqr; i1++) {
+                System.out.print(sudokuMatrx[i][i1] + " ");
+            }
+            System.out.println();
+        }
+*/
+        //Calculating answer (sudoki is solved, if summ of all lines is equal)
+        int summCHEK = 0;
+        for (int i = 1; i <=sqr; i++){
+            summCHEK += i;
+        }
+        // checking rows;
+/*        System.out.println();
+        System.out.println("Checking rows");
+        System.out.println("------------------");
+*/        for (int i = 0; i < sqr; i++){
+            for (int i1 = 0; i1 < sqr; i1++){
+                summH[i] += sudokuMatrx[i][i1];
+            }
+            if (summH[i] != summCHEK) {ansFINAL = false;}
+//             System.out.println("HORSumm[" + i + "] = " + summH[i] + "; ansFINAL = " + ansFINAL);
+        }
+        // checking columns;
+/*        System.out.println();
+        System.out.println("Checking columns");
+        System.out.println("------------------");
+*/        for (int i = 0; i < sqr; i++){
+            for (int i1 = 0; i1 < sqr; i1++){
+                summV[i] += sudokuMatrx[i1][i];
+            }
+            if (summV[i] != summCHEK) {ansFINAL = false;}
+//              System.out.println("VERTSumm[" + i + "] = " + summV[i] + "; ansFINAL = " + ansFINAL);
+        }
+
+        //Checking side x side fields
+        // Loop for columns
+        int offsetRIGHT = 0;
+        int offsetDOWN = 0;
+/*        System.out.println();
+        System.out.println("Checking fields");
+        System.out.println("------------------");
+*/        for (int i = 0; i < inpVal; i++) {
+            //Checking rows side x side
+                for (int i1 = 0; i1 < inpVal; i1++ ){
+                    //checking side x side field
+                    for (int i2 = 0; i2 < inpVal; i2++){
+                        for (int i3 = 0; i3 < inpVal; i3++){
+                            summF[summFcounter] += sudokuMatrx[i2 + offsetRIGHT][i3 + offsetDOWN];
+//                            System.out.print("summF[" + summFcounter + "] = " + summF[summFcounter] + "(|"+ sudokuMatrx[i2 + offsetRIGHT][i3 + offsetDOWN] + "|); ");
+                        }
+//                        System.out.println();
+                    }
+//                  System.out.println("---------------");
+                    if (summF[summFcounter] != summCHEK) {ansFINAL = false;}
+                    summFcounter += 1;
+                    offsetRIGHT += inpVal;
+               }
+                offsetRIGHT = 0;
+                offsetDOWN += inpVal;
+        }
+    /*    //Checking fields inpVal x inpVal
+            for(int i = 0; i < inpVal; i++) {
+                for (int i1 = 0; i1 < inpVal; i1++) {
+                    summF[0] += sudokuMatrx[i][i1];
+                    System.out.println("sud matrix =" + sudokuMatrx[i][i1]);
+                }
+            }
+    */
+        //Outputing answer;
+        if (ansFINAL == true) {System.out.println("YES");}
+        else {System.out.println("NO");}
+    }
+}
