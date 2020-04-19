@@ -1,0 +1,84 @@
+package tictactoe;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scnr = new Scanner(System.in);
+        String str; //Just for scanning
+        int i = 0;
+        int iCount = 0;
+        int xCount = 0;
+        int oCount = 0;
+        int ans = 0;
+        String ansFINAL = null;
+
+        System.out.print("Enter cells: ");
+        str = scnr.nextLine();
+
+        char[] entVal = str.toCharArray(); // returns a length 9 char array
+        char[][]matrx = new char[3][3]; //for output
+
+        // transporting entVal values into the matrix matrx
+
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                if (entVal[i] == 'O') {matrx[j][k] = entVal[i]; oCount++;}
+                if (entVal[i] == 'X') {matrx[j][k] = entVal[i]; xCount++;}
+                else {  matrx[j][k] = entVal[i];}
+                i++;
+            }
+        }
+
+                //------------------- Analyzing the result----------------------
+        //Counting positive results (wins)
+        do {
+            if  (matrx[iCount][0] == matrx[iCount][1] && matrx[iCount][0] == matrx[iCount][2] ) {
+                ansFINAL = (matrx[iCount][0] + " wins");
+                ans++;
+                System.out.println("Checking row: ans=" + ans + " " + ansFINAL);} //Checking rows
+            else if (matrx[0][iCount] == matrx[1][iCount] && matrx[0][iCount] ==  matrx[2][iCount]) {
+                ansFINAL = (matrx[0][iCount] +" wins");
+                ans++;
+                System.out.println("Checking column: ans=" + ans + " " + ansFINAL);} //Checking columns
+
+
+            iCount++;
+
+        } while (iCount < 3);
+
+        if (matrx[0][0] == matrx[1][1] && matrx[0][0] == matrx[2][2]){
+            ansFINAL = (matrx[0][0] + " wins");
+            ans++;
+            System.out.println("Checking diag1: ans=" + ans + " " + ansFINAL);}// Checking 1st diag
+        else if (matrx[0][2] == matrx[1][1] && matrx[0][2] == matrx[2][0]){
+            ansFINAL = (matrx[0][0] + " wins");
+            ans++;
+            System.out.println("Checking diag2: ans=" + ans + " " + ansFINAL);} // Checking 2nd diag
+
+
+        //Checking if there is more then 1 positive result, or no results
+            if (xCount > oCount + 1 || oCount > xCount + 1) { ansFINAL ="Impossible";}
+            else if (ans > 1) { ansFINAL ="Impossible";}
+            else if (ans == 1) { ansFINAL = ansFINAL;}
+            else if (ans != 1 && oCount + xCount == 9){ ansFINAL = "Draw";}
+            else {ansFINAL = "Game not finished";}
+
+
+
+        // ------------------------------------Outputing RESULT----------------------------------------
+
+        System.out.println("---------");
+        // Outputing Values form matrx2
+        for (int j = 0; j < 3; j++) {
+            System.out.print("| ");
+            for (int k = 0; k < 3; k++) {
+                System.out.print(matrx[j][k] + " ");
+            }
+            System.out.println("|");
+            //System.out.println();
+        }
+        System.out.println("---------");
+        System.out.println(ansFINAL);
+     //   System.out.println(ans + "  " + xCount + "  " + oCount);
+    }
+}
